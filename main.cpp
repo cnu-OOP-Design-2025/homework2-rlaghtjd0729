@@ -3,20 +3,6 @@
 #include "homework2-1.h"
 #include "homework2-2.h"
 #include <cstdlib>
-#include <sys/stat.h>
-
-#ifdef _WIN32
-#include <direct.h>
-#endif
-
-
-void createDirectory(const std::string& path) {
-    #ifdef _WIN32
-        _mkdir(path.c_str());
-    #else
-        mkdir(path.c_str(), 0777);
-    #endif
-}
 
 using namespace std;
 
@@ -157,8 +143,6 @@ void doPointerTest(int select){
     students = nullptr;
 }
 int main(int argc, char **argv) {
-    
-    createDirectory("Test");
 
     if(argc == 2){
         int select = atoi(argv[1]);
