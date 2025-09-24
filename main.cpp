@@ -1,12 +1,15 @@
 #include <iostream>
+#include <iomanip>
 #include "homework2-1.h"
 #include "homework2-2.h"
+#include <cstdlib>
+
 using namespace std;
 
 StudentStruct *students = nullptr;
 int numOfStudent = 0;
 
-void printBestStudent()
+void printBestStudentTest1()
 {
     int bestMidtermId = findBestStudentInMidterm(students, numOfStudent);
     int bestFinalId = findBestStudentInFinal(students, numOfStudent);
@@ -21,21 +24,24 @@ void printBestStudent()
     cout << "Best Total Score Student:\n";
     printStudentInfo(students, numOfStudent, bestTotalId);
 }
-void printAverage()
+
+void printAverageTest1()
 {
     float midtermAvg = getMidtermAverage(students, numOfStudent);
     float finalAvg = getFinalAverage(students, numOfStudent);
     float totalAvg = getTotalAverage(students, numOfStudent);
 
     cout << "# of Student: " << numOfStudent << endl;
+    cout << fixed << setprecision(3);
     cout << "Midterm Average: " << midtermAvg << endl;
-    cout << "Midterm Average: " << finalAvg << endl;;
-    cout << "Midterm Average: " << totalAvg << endl;;
+    cout << "Final Average: " << finalAvg << endl;
+    cout << "Total Average: " << totalAvg << endl;
+    cout.unsetf(ios::fixed);
 }
 
 void printStudentList(){
-    for(int id = 1000; id < 1100; ++id){
-        printStudentInfo(students, numOfStudent, id);
+    for(int i = 0; i < numOfStudent; ++i){
+        printStudentInfo(students, numOfStudent, (students+i)->id);
     }
 }
 
@@ -44,81 +50,74 @@ void doNamespaceTest(){
     cout << "Namespace Test" << endl;
 
     // 정수형 계산기 테스트
-    cout << "[IntCalc] 10 + 3 = " << 0 /*TODO*/ << endl;
-    cout << "[IntCalc] 10 - 3 = " << 0 /*TODO*/ << endl;
-    cout << "[IntCalc] 10 * 3 = " << 0 /*TODO*/ << endl;
-    cout << "[IntCalc] 10 / 3 = " << 0 /*TODO*/ << endl;
-
-    cout << "[IntCalc] 10.5 + 3.2 = " << 0 /*TODO*/ << endl;
-    cout << "[IntCalc] 10.5 - 3.2 = " << 0 /*TODO*/ << endl;
-    cout << "[IntCalc] 10.5 * 3.2 = " << 0 /*TODO*/ << endl;
-    cout << "[IntCalc] 10.5 / 3.2 = " << 0 /*TODO*/ << endl;
-
+    cout << "[IntCalc] 10 + 3 = " << IntCalc::add(10, 3) << endl;
+    cout << "[IntCalc] 10 - 3 = " << IntCalc::subtract(10, 3) << endl;
+    cout << "[IntCalc] 10 * 3 = " << IntCalc::multiply(10, 3) << endl;
+    cout << "[IntCalc] 10 / 3 = " << IntCalc::divide(10, 3) << endl;
+    cout << endl; // 가독성을 위해 추가
 
     // 실수형 계산기 테스트
-    cout << "[FloatCalc] 10 + 3 = " << 0.0f /*TODO*/ << endl;
-    cout << "[FloatCalc] 10 - 3 = " << 0.0f /*TODO*/ << endl;
-    cout << "[FloatCalc] 10 * 3 = " << 0.0f /*TODO*/ << endl;
-    cout << "[FloatCalc] 10 / 3 = " << 0.0f /*TODO*/ << endl;
+    cout << fixed << setprecision(5);
+    cout << "[FloatCalc] 10.5 + 3.2 = " << FloatCalc::add(10.5f, 3.2f) << endl;
+    cout << "[FloatCalc] 10.5 - 3.2 = " << FloatCalc::subtract(10.5f, 3.2f) << endl;
+    cout << "[FloatCalc] 10.5 * 3.2 = " << FloatCalc::multiply(10.5f, 3.2f) << endl;
+    cout << "[FloatCalc] 10.5 / 3.2 = " << FloatCalc::divide(10.5f, 3.2f) << endl;
+    cout.unsetf(ios::fixed);
+    cout << endl; // 가독성을 위해 추가
 
-
-    cout << "[FloatCalc] 10.5 + 3.2 = " << 0.0f /*TODO*/ << endl;
-    cout << "[FloatCalc] 10.5 - 3.2 = " << 0.0f /*TODO*/ << endl;
-    cout << "[FloatCalc] 10.5 * 3.2 = " << 0.0f /*TODO*/ << endl;
-    cout << "[FloatCalc] 10.5 / 3.2 = " << 0.0f /*TODO*/ << endl;
+    // 정수형 인자로 실수형 함수 호출 테스트
+    cout << "[FloatCalc] 10 + 3 = " << FloatCalc::add(10, 3) << endl;
+    cout << "[FloatCalc] 10 - 3 = " << FloatCalc::subtract(10, 3) << endl;
+    cout << "[FloatCalc] 10 * 3 = " << FloatCalc::multiply(10, 3) << endl;
+    cout << fixed << setprecision(5);
+    cout << "[FloatCalc] 10 / 3 = " << FloatCalc::divide(10, 3) << endl;
+    cout.unsetf(ios::fixed);
 }
+
 void doTest1(){
     cout << "---------------------------" << endl;
     cout << "Test 1" << endl;
 
-    printBestStudent();
-    printAverage();
+    printBestStudentTest1();
+    printAverageTest1();
+    cout << "\n--- Student List ---" << endl;
     printStudentList();
 }
+
 void doTest2(){
     cout << "---------------------------" << endl;
     cout << "Test 2" << endl;
 
     StudentStruct charlie("Charlie", 1003, 70, 99.0);
 
-
-    int idx = -1;
-    /* TODO: homework1.cpp의 findStudentByStudentID() 함수 호출을 homework2-2.h의 findStudentByStudentID 함수 선언에 맞춰 수정하기 */
-    /*
-    idx = findStudentByStudentID(charlie.id);
-    */
-
+    int idx = findStudentByStudentID(students, numOfStudent, charlie.id);
     if(idx >= 0)
         modifyRecord(students, numOfStudent, charlie);
 
-    /* TODO: homework1.cpp의 addStudent() 함수 호출를 homework2-2.h의 addStudent 함수 선언에 맞춰 수정하기 */
-    /*
-    addStudent("Ana", 1051, 88, 65);
-    addStudent("Suji", 1052, 90, 93);
-    addStudent("Zhang", 1053, 100, 40);
-    */
+    addStudent(students, &numOfStudent, "Ana", 1051, 88, 65);
+    addStudent(students, &numOfStudent, "Suji", 1052, 90, 93);
+    addStudent(students, &numOfStudent, "Zhang", 1053, 100, 40);
 
-    printBestStudent();
-    printAverage();
+    cout << "\n--- Updated Info ---" << endl;
+    printBestStudentTest1(); // Test 1 함수 재사용
+    printAverageTest1(); // Test 1 함수 재사용
+    cout << "\n--- Updated Student List ---" << endl;
     printStudentList();
 }
 void doTest3(){
-    std::cout << "---------------------------" << std::endl;
-    std::cout << "Test 3" << std::endl;
+    cout << "---------------------------" << endl;
+    cout << "Test 3" << endl;
 
-    /* TODO: homework1.cpp의 addStudent 함수를 homework2-2.h의 addStudent 함수에 맞춰 수정하기 */
-    /*
-    deleteStudent(1011);
-    deleteStudent(1029);
-    */
+    deleteStudent(students, &numOfStudent, 1011);
+    deleteStudent(students, &numOfStudent, 1029);
 
+    cout << "\n--- After Deletion ---" << endl;
     printStudentList();
 }
 
 void doPointerTest(int select){
     const int MAX_STUDENTS = 100;
-    /* TODO: StudentStruct[MAX_STUDENTS] 메모리 동적 할당 */
-    students = nullptr;
+    students = new StudentStruct[MAX_STUDENTS];
     fillStudentRecord(students, &numOfStudent);
 
     if(students == nullptr)
@@ -141,20 +140,18 @@ void doPointerTest(int select){
             break;
     }
     delete[] students;
+    students = nullptr;
 }
 int main(int argc, char **argv) {
 
     if(argc == 2){
         int select = atoi(argv[1]);
-        switch(select){
-            case 1:
-                doNamespaceTest();
-                return 0;
-            case 2:
-            case 3:
-            case 4:
-                doPointerTest(select);
-                return 0;
+        if(select == 1){
+            doNamespaceTest();
+            return 0;
+        } else if(select >= 2 && select <= 4){
+            doPointerTest(select);
+            return 0;
         }
     }
     doNamespaceTest();

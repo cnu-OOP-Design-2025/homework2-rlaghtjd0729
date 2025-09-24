@@ -1,15 +1,15 @@
 ---------------------------
-Test 1
+Test 2
 Best Midterm Student:
-Name: Ian, ID: 1009
+Name: Zhang, ID: 1053
 Best Final Student:
 Name: Derek, ID: 1030
-Best Total Score Student
+Best Total Score Student:
 Name: Jack, ID: 1036
-# of Student: 50
-Midterm Average: 82.318
-Midterm Average: 78.908
-Midterm Average: 80.613
+# of Student: 53
+Midterm Average: 82.6358
+Midterm Average: 78.6717
+Midterm Average: 80.6538
 Name: Alice, ID: 1001
 Name: Bob, ID: 1002
 Name: Charlie, ID: 1003
@@ -60,3 +60,6 @@ Name: Ursula, ID: 1047
 Name: Vince, ID: 1048
 Name: Will, ID: 1049
 Name: Zoe, ID: 1050
+Name: Ana, ID: 1051
+Name: Suji, ID: 1052
+Name: Zhang, ID: 1053
