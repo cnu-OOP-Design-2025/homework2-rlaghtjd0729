@@ -1,15 +1,5 @@
 #include "homework2-1.h"
-#include <iostream>
-#include <iomanip>
-#include <cstring>
-#include "homework2-2.h"
-#include <sys/stat.h>
 
-#ifdef _WIN32
-#include <direct.h>
-#endif
-
-// 함수는 그대로 두었습니다.
 // 정수형 계산기
 namespace IntCalc {
     int add(int a, int b) {

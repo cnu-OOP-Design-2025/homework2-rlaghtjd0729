@@ -3,6 +3,21 @@
 #include "homework2-1.h"
 #include "homework2-2.h"
 #include <cstdlib>
+#include <sys/stat.h>
+#include <string>
+
+#ifdef _WIN32
+#include <direct.h>
+#endif
+
+// 디렉터리를 생성하는 함수 (GitHub Actions 환경을 위해 추가)
+void createDirectory(const std::string& path) {
+    #ifdef _WIN32
+        _mkdir(path.c_str());
+    #else
+        mkdir(path.c_str(), 0777);
+    #endif
+}
 
 using namespace std;
 
@@ -41,7 +56,7 @@ void printAverageTest1()
 
 void printStudentList(){
     for(int i = 0; i < numOfStudent; ++i){
-        printStudentInfo(students, numOfStudent, (students+i)->id);
+        printStudentInfo(students, numOfStudent, students[i].id);
     }
 }
 
@@ -143,6 +158,7 @@ void doPointerTest(int select){
     students = nullptr;
 }
 int main(int argc, char **argv) {
+    createDirectory("Test");
 
     if(argc == 2){
         int select = atoi(argv[1]);

@@ -3,7 +3,6 @@
 #include "homework2-2.h"
 #include <cstring>
 
-// fillStudentRecord는 homework2-2.cpp에 속해야 합니다.
 void fillStudentRecord(StudentStruct *students, int *numOfStudent) {
     addStudent(students, numOfStudent, "Alice", 1001, 90.7f, 91.0f);
     addStudent(students, numOfStudent, "Bob", 1002, 68.5f, 74.8f);
@@ -60,11 +59,11 @@ void fillStudentRecord(StudentStruct *students, int *numOfStudent) {
 /* Return student ID */
 int findBestStudentInMidterm(StudentStruct* students, int numOfStudent) {
     if (numOfStudent <= 0) return -1;
-    float maxMidterm = -1.0f;
-    int bestStudentId = -1;
-    for (int i = 0; i < numOfStudent; ++i) {
-        if (students[i].record.midterm > maxMidterm) { // 변경
-            maxMidterm = students[i].record.midterm; // 변경
+    float maxMidterm = students[0].record.midterm;
+    int bestStudentId = students[0].id;
+    for (int i = 1; i < numOfStudent; ++i) {
+        if (students[i].record.midterm > maxMidterm) {
+            maxMidterm = students[i].record.midterm;
             bestStudentId = students[i].id;
         }
     }
@@ -74,9 +73,9 @@ int findBestStudentInMidterm(StudentStruct* students, int numOfStudent) {
 /* Return student ID */
 int findBestStudentInFinal(StudentStruct* students, int numOfStudent) {
     if (numOfStudent <= 0) return -1;
-    float maxFinal = -1.0f;
-    int bestStudentId = -1;
-    for (int i = 0; i < numOfStudent; ++i) {
+    float maxFinal = students[0].record.final;
+    int bestStudentId = students[0].id;
+    for (int i = 1; i < numOfStudent; ++i) {
         if (students[i].record.final > maxFinal) {
             maxFinal = students[i].record.final;
             bestStudentId = students[i].id;
@@ -88,9 +87,9 @@ int findBestStudentInFinal(StudentStruct* students, int numOfStudent) {
 /* Return student ID */
 int findBestStudent(StudentStruct* students, int numOfStudent) {
     if (numOfStudent <= 0) return -1;
-    float maxTotalScore = -1.0f;
-    int bestStudentId = -1;
-    for (int i = 0; i < numOfStudent; ++i) {
+    float maxTotalScore = students[0].record.midterm + students[0].record.final;
+    int bestStudentId = students[0].id;
+    for (int i = 1; i < numOfStudent; ++i) {
         float currentTotal = students[i].record.midterm + students[i].record.final;
         if (currentTotal > maxTotalScore) {
             maxTotalScore = currentTotal;
@@ -103,7 +102,7 @@ int findBestStudent(StudentStruct* students, int numOfStudent) {
 /* Return Index */
 int findStudentByStudentID(StudentStruct* students, int numOfStudent, int id) {
     for (int i = 0; i < numOfStudent; ++i) {
-        if (students[i].id == id) { // 변경
+        if (students[i].id == id) {
             return i;
         }
     }
@@ -161,15 +160,15 @@ float getTotalAverage(StudentStruct* students, int numOfStudent) {
     if (numOfStudent <= 0) return 0.0f;
     float sumTotal = 0.0f;
     for (int i = 0; i < numOfStudent; ++i) {
-        sumTotal += students[i].record.midterm + students[i].record.final;
+        sumTotal += (students[i].record.midterm + students[i].record.final) / 2.0f;
     }
-    return sumTotal / numOfStudent; // 변경: / 2.0f 제거
+    return sumTotal / numOfStudent;
 }
 
 void printStudentInfo(StudentStruct* students, int numOfStudent, int id) {
     int idx = findStudentByStudentID(students, numOfStudent, id);
     if (idx >= 0) {
-        std::cout << "Name: " << students[idx].name // 변경: 배열 인덱스 사용
-                  << ", ID: " << students[idx].id << std::endl; // 변경
+        std::cout << "Name: " << students[idx].name
+                  << ", ID: " << students[idx].id << std::endl;
     }
 }
