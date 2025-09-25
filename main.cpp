@@ -1,177 +1,159 @@
 #include <iostream>
-#include <iomanip>
+#include <cstdlib>
 #include "homework2-1.h"
 #include "homework2-2.h"
-#include <cstdlib>
-#include <sys/stat.h>
-#include <string>
-
-#ifdef _WIN32
-#include <direct.h>
-#endif
-
-// 디렉터리를 생성하는 함수 (GitHub Actions 환경을 위해 추가)
-void createDirectory(const std::string& path) {
-    #ifdef _WIN32
-        _mkdir(path.c_str());
-    #else
-        mkdir(path.c_str(), 0777);
-    #endif
-}
-
 using namespace std;
 
-StudentStruct *students = nullptr;
-int numOfStudent = 0;
+StudentStruct *studentData = nullptr;
+int studentCount = 0;
 
-void printBestStudentTest1()
-{
-    int bestMidtermId = findBestStudentInMidterm(students, numOfStudent);
-    int bestFinalId = findBestStudentInFinal(students, numOfStudent);
-    int bestTotalId = findBestStudent(students, numOfStudent);
+void printTopStudents() {
+    int topMidtermId = findTopMidtermStudent(studentData, studentCount);
+    int topFinalId = findTopFinalStudent(studentData, studentCount);
+    int topTotalId = findTopOverallStudent(studentData, studentCount);
 
     cout << "Best Midterm Student:\n";
-    printStudentInfo(students, numOfStudent, bestMidtermId);
+    printStudentInfo(studentData, studentCount, topMidtermId);
 
     cout << "Best Final Student:\n";
-    printStudentInfo(students, numOfStudent, bestFinalId);
+    printStudentInfo(studentData, studentCount, topFinalId);
 
     cout << "Best Total Score Student:\n";
-    printStudentInfo(students, numOfStudent, bestTotalId);
+    printStudentInfo(studentData, studentCount, topTotalId);
 }
 
-void printAverageTest1()
-{
-    float midtermAvg = getMidtermAverage(students, numOfStudent);
-    float finalAvg = getFinalAverage(students, numOfStudent);
-    float totalAvg = getTotalAverage(students, numOfStudent);
+void printAverages() {
+    float midtermAvg = getMidtermAverage(studentData, studentCount);
+    float finalAvg = getFinalAverage(studentData, studentCount);
+    float totalAvg = getOverallAverage(studentData, studentCount);
 
-    cout << "# of Student: " << numOfStudent << endl;
-    cout << fixed << setprecision(3);
+    cout << "# of Student: " << studentCount << endl;
     cout << "Midterm Average: " << midtermAvg << endl;
     cout << "Final Average: " << finalAvg << endl;
-    cout << "Total Average: " << totalAvg << endl;
-    cout.unsetf(ios::fixed);
+    cout << "Overall Average: " << totalAvg << endl;
 }
 
-void printStudentList(){
-    for(int i = 0; i < numOfStudent; ++i){
-        printStudentInfo(students, numOfStudent, students[i].id);
+void printAllStudentInfo() {
+    for (int id = 1000; id < 1100; ++id) {
+        printStudentInfo(studentData, studentCount, id);
     }
 }
 
-void doNamespaceTest(){
+void runNamespaceTest() {
     cout << "---------------------------" << endl;
     cout << "Namespace Test" << endl;
 
-    // 정수형 계산기 테스트
-    cout << "[IntCalc] 10 + 3 = " << IntCalc::add(10, 3) << endl;
-    cout << "[IntCalc] 10 - 3 = " << IntCalc::subtract(10, 3) << endl;
-    cout << "[IntCalc] 10 * 3 = " << IntCalc::multiply(10, 3) << endl;
-    cout << "[IntCalc] 10 / 3 = " << IntCalc::divide(10, 3) << endl;
-    cout << endl; // 가독성을 위해 추가
+    // Integer Calculator Test
+    cout << "[IntOperations] 10 + 3 = " << IntOperations::add(10, 3) << endl;
+    cout << "[IntOperations] 10 - 3 = " << IntOperations::subtract(10, 3) << endl;
+    cout << "[IntOperations] 10 * 3 = " << IntOperations::multiply(10, 3) << endl;
+    cout << "[IntOperations] 10 / 3 = " << IntOperations::divide(10, 3) << endl;
 
-    // 실수형 계산기 테스트
-    cout << fixed << setprecision(5);
-    cout << "[FloatCalc] 10.5 + 3.2 = " << FloatCalc::add(10.5f, 3.2f) << endl;
-    cout << "[FloatCalc] 10.5 - 3.2 = " << FloatCalc::subtract(10.5f, 3.2f) << endl;
-    cout << "[FloatCalc] 10.5 * 3.2 = " << FloatCalc::multiply(10.5f, 3.2f) << endl;
-    cout << "[FloatCalc] 10.5 / 3.2 = " << FloatCalc::divide(10.5f, 3.2f) << endl;
-    cout.unsetf(ios::fixed);
-    cout << endl; // 가독성을 위해 추가
+    cout << "[IntOperations] 10.5 + 3.2 = " << IntOperations::add(10.5, 3.2) << endl;
+    cout << "[IntOperations] 10.5 - 3.2 = " << IntOperations::subtract(10.5, 3.2) << endl;
+    cout << "[IntOperations] 10.5 * 3.2 = " << IntOperations::multiply(10.5, 3.2) << endl;
+    cout << "[IntOperations] 10.5 / 3.2 = " << IntOperations::divide(10.5, 3.2) << endl;
 
-    // 정수형 인자로 실수형 함수 호출 테스트
-    cout << "[FloatCalc] 10 + 3 = " << FloatCalc::add(10, 3) << endl;
-    cout << "[FloatCalc] 10 - 3 = " << FloatCalc::subtract(10, 3) << endl;
-    cout << "[FloatCalc] 10 * 3 = " << FloatCalc::multiply(10, 3) << endl;
-    cout << fixed << setprecision(5);
-    cout << "[FloatCalc] 10 / 3 = " << FloatCalc::divide(10, 3) << endl;
-    cout.unsetf(ios::fixed);
+
+    // Float Calculator Test
+    cout << "[FloatOperations] 10 + 3 = " << FloatOperations::add(10, 3) << endl;
+    cout << "[FloatOperations] 10 - 3 = " << FloatOperations::subtract(10, 3) << endl;
+    cout << "[FloatOperations] 10 * 3 = " << FloatOperations::multiply(10, 3) << endl;
+    cout << "[FloatOperations] 10 / 3 = " << FloatOperations::divide(10, 3) << endl;
+
+    cout << "[FloatOperations] 10.5 + 3.2 = " << FloatOperations::add(10.5f, 3.2f) << endl;
+    cout << "[FloatOperations] 10.5 - 3.2 = " << FloatOperations::subtract(10.5f, 3.2f) << endl;
+    cout << "[FloatOperations] 10.5 * 3.2 = " << FloatOperations::multiply(10.5f, 3.2f) << endl;
+    cout << "[FloatOperations] 10.5 / 3.2 = " << FloatOperations::divide(10.5f, 3.2f) << endl;
 }
 
-void doTest1(){
+void testScenario1() {
     cout << "---------------------------" << endl;
     cout << "Test 1" << endl;
 
-    printBestStudentTest1();
-    printAverageTest1();
-    cout << "\n--- Student List ---" << endl;
-    printStudentList();
+    printTopStudents();
+    printAverages();
+    printAllStudentInfo();
 }
 
-void doTest2(){
+void testScenario2() {
     cout << "---------------------------" << endl;
     cout << "Test 2" << endl;
 
-    StudentStruct charlie("Charlie", 1003, 70, 99.0);
+    StudentStruct modifiedCharlie("Charlie", 1003, 70.0f, 99.0f);
 
-    int idx = findStudentByStudentID(students, numOfStudent, charlie.id);
-    if(idx >= 0)
-        modifyRecord(students, numOfStudent, charlie);
+    int index = findStudentById(studentData, studentCount, modifiedCharlie.id);
+    if (index >= 0) {
+        updateRecord(studentData, studentCount, modifiedCharlie);
+    }
 
-    addStudent(students, &numOfStudent, "Ana", 1051, 88, 65);
-    addStudent(students, &numOfStudent, "Suji", 1052, 90, 93);
-    addStudent(students, &numOfStudent, "Zhang", 1053, 100, 40);
+    addStudent(studentData, &studentCount, "Ana", 1051, 88.0f, 65.0f);
+    addStudent(studentData, &studentCount, "Suji", 1052, 90.0f, 93.0f);
+    addStudent(studentData, &studentCount, "Zhang", 1053, 100.0f, 40.0f);
 
-    cout << "\n--- Updated Info ---" << endl;
-    printBestStudentTest1(); // Test 1 함수 재사용
-    printAverageTest1(); // Test 1 함수 재사용
-    cout << "\n--- Updated Student List ---" << endl;
-    printStudentList();
+    printTopStudents();
+    printAverages();
+    printAllStudentInfo();
 }
-void doTest3(){
+
+void testScenario3() {
     cout << "---------------------------" << endl;
     cout << "Test 3" << endl;
 
-    deleteStudent(students, &numOfStudent, 1011);
-    deleteStudent(students, &numOfStudent, 1029);
+    studentCount = 0;
+    populateStudentRecords(studentData, &studentCount);
 
-    cout << "\n--- After Deletion ---" << endl;
-    printStudentList();
+    removeStudent(studentData, &studentCount, 1011);
+    removeStudent(studentData, &studentCount, 1029);
+
+    printAllStudentInfo();
 }
 
-void doPointerTest(int select){
+void runPointerTest(int scenario) {
     const int MAX_STUDENTS = 100;
-    students = new StudentStruct[MAX_STUDENTS];
-    fillStudentRecord(students, &numOfStudent);
+    studentData = new StudentStruct[MAX_STUDENTS];
 
-    if(students == nullptr)
+    populateStudentRecords(studentData, &studentCount);
+
+    if (studentData == nullptr) {
         return;
+    }
 
-    switch(select){
+    switch (scenario) {
         case 2:
-            doTest1();
+            testScenario1();
             break;
         case 3:
-            doTest2();
+            testScenario2();
             break;
         case 4:
-            doTest3();
+            testScenario3();
             break;
         default:
-            doTest1();
-            doTest2();
-            doTest3();
+            testScenario1();
+            testScenario2();
+            testScenario3();
             break;
     }
-    delete[] students;
-    students = nullptr;
+    delete[] studentData;
 }
-int main(int argc, char **argv) {
-    createDirectory("Test");
 
-    if(argc == 2){
+int main(int argc, char **argv) {
+    if (argc == 2) {
         int select = atoi(argv[1]);
-        if(select == 1){
-            doNamespaceTest();
-            return 0;
-        } else if(select >= 2 && select <= 4){
-            doPointerTest(select);
-            return 0;
+        switch (select) {
+            case 1:
+                runNamespaceTest();
+                return 0;
+            case 2:
+            case 3:
+            case 4:
+                runPointerTest(select);
+                return 0;
         }
     }
-    doNamespaceTest();
-    doPointerTest(0);
+    runNamespaceTest();
+    runPointerTest(0);
 
     return 0;
 }

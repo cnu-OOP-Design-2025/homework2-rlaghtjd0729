@@ -1,39 +1,39 @@
 #include "homework2-1.h"
 
-// 정수형 계산기
-namespace IntCalc {
-    int add(int a, int b) {
-        return a + b;
+/* 정수 계산을 위한 네임스페이스와 함수 정의 */
+namespace IntOperations {
+    int add(int num1, int num2) {
+        return num1 + num2;
     }
-    int subtract(int a, int b) {
-        return a - b;
+
+    int subtract(int num1, int num2) {
+        return num1 - num2;
     }
-    int multiply(int a, int b) {
-        return a * b;
+
+    int multiply(int num1, int num2) {
+        return num1 * num2;
     }
-    int divide(int a, int b) {
-        if (b == 0) {
-            return 0;
-        }
-        return a / b;
+
+    int divide(int num1, int num2) {
+        return num1 / num2;
     }
 }
 
-// 실수형 계산기
-namespace FloatCalc {
-    float add(float a, float b) {
-        return a + b;
+/* 실수 계산을 위한 네임스페이스와 함수 정의 */
+namespace FloatOperations {
+    float add(float num1, float num2) {
+        return num1 + num2;
     }
-    float subtract(float a, float b) {
-        return a - b;
+
+    float subtract(float num1, float num2) {
+        return num1 - num2;
     }
-    float multiply(float a, float b) {
-        return a * b;
+
+    float multiply(float num1, float num2) {
+        return num1 * num2;
     }
-    float divide(float a, float b) {
-        if (b == 0.0f) {
-            return 0.0f;
-        }
-        return a / b;
+
+    float divide(float num1, float num2) {
+        return num1 / num2;
     }
 }
